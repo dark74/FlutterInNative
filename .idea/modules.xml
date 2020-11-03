@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FlutterInNative.iml" filepath="$PROJECT_DIR$/FlutterInNative.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="FlutterInNative/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../flutter_module/.android/Flutter/flutter.iml" filepath="$PROJECT_DIR$/../flutter_module/.android/Flutter/flutter.iml" />
       <module fileurl="file://$PROJECT_DIR$/../flutter_module/flutter_module.iml" filepath="$PROJECT_DIR$/../flutter_module/flutter_module.iml" />
       <module fileurl="file://D:/DevTools/FlutterSDK/flutter_windows_1.22.2-stable/flutter/.pub-cache/hosted/pub.flutter-io.cn/fluttertoast-2.2.11/android/fluttertoast.iml" filepath="D:/DevTools/FlutterSDK/flutter_windows_1.22.2-stable/flutter/.pub-cache/hosted/pub.flutter-io.cn/fluttertoast-2.2.11/android/fluttertoast.iml" />

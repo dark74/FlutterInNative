@@ -8,6 +8,12 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.flutterinnative.methodinject.MethodChannelInject;
+import com.example.flutterinnative.methodinject.MethodChannelUtil;
+import com.example.flutterinnative.methodinject.MethonType;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +45,7 @@ public class FlutterPageActivity extends AppCompatActivity {
 
         // 创建FlutterEngine对象
         flutterEngine = createFlutterEngine();
-
+        //MethodChannelUtil.register(this, flutterEngine);
         // 通过FlutterView引入Flutter编写的页面
 //        flutterView = new FlutterView(this);
 //        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -58,29 +64,54 @@ public class FlutterPageActivity extends AppCompatActivity {
 
         MethodChannel nativeChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_NATIVE);
         nativeChannel.setMethodCallHandler((methodCall, result) -> {
-            switch (methodCall.method) {
-                case "goBack":
-                    // 返回上一页
-                    finish();
-                    break;
-                case "goBackWithResult":
-                    // 返回上一页，携带数据
-                    Intent backIntent = new Intent();
-                    backIntent.putExtra("message", (String) methodCall.argument("message"));
-                    setResult(RESULT_OK, backIntent);
-                    finish();
-                    break;
-                case "jumpToNative":
-                    // 跳转原生页面
-                    Intent jumpToNativeIntent = new Intent(this, NativePageActivity.class);
-                    jumpToNativeIntent.putExtra("name", (String) methodCall.argument("name"));
-                    startActivityForResult(jumpToNativeIntent, 0);
-                    break;
-                default:
-                    result.notImplemented();
-                    break;
-            }
+//            switch (methodCall.method) {
+//                case "goBack":
+//                    finish();
+//                    break;
+//                case "goBackWithResult":
+//                    // 返回上一页，携带数据
+//                    Intent backIntent = new Intent();
+//                    backIntent.putExtra("message", (String) methodCall.argument("message"));
+//                    setResult(RESULT_OK, backIntent);
+//                    finish();
+//                    break;
+//                case "jumpToNative":
+//                    // 跳转原生页面
+//                    Intent jumpToNativeIntent = new Intent(this, NativePageActivity.class);
+//                    jumpToNativeIntent.putExtra("name", (String) methodCall.argument("name"));
+//                    startActivityForResult(jumpToNativeIntent, 0);
+//                    break;
+//                default:
+//                    result.notImplemented();
+//                    break;
+//            }
+            MethodChannelUtil.proxy(this, methodCall, result);
         });
+    }
+
+    // 返回上一页
+    @MethodChannelInject(methodName = "goBack", paramsKey = {"type"})
+    public void goBack(Map<String, Object> map) {
+        finish();
+    }
+
+    // 返回上一页，携带数据
+    @MethodChannelInject(methodName = "goBackWithResult", paramsKey = {"message"})
+    public void goBackWithResult(Map<String, Object> map) {
+        Intent backIntent = new Intent();
+        String msg = (String) map.get("message");
+        backIntent.putExtra("message", msg);
+        setResult(RESULT_OK, backIntent);
+        finish();
+    }
+
+    // 跳转原生页面
+    @MethodChannelInject(methodName = "jumpToNative", paramsKey = "name")
+    public void jumpToNative(Map<String, Object> map) {
+        Intent jumpToNativeIntent = new Intent(this, NativePageActivity.class);
+        String name = (String) map.get("name");
+        jumpToNativeIntent.putExtra("name", name);
+        startActivityForResult(jumpToNativeIntent, 0);
     }
 
     /**
@@ -114,6 +145,12 @@ public class FlutterPageActivity extends AppCompatActivity {
                 MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
                 flutterChannel.invokeMethod("onActivityResult", result);
             }
+        } else {
+            Map<String, Object> result = new HashMap<>();
+            result.put("message", "empty");
+            // 创建MethodChannel
+            MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), CHANNEL_FLUTTER);
+            flutterChannel.invokeMethod("onCallback", result);
         }
     }
 
