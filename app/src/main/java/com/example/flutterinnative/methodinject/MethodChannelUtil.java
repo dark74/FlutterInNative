@@ -49,7 +49,7 @@ public class MethodChannelUtil {
         String method = methodCall.method;
         Log.d("dk", "proxy - method:" + method);
         //获取activity或者fragment声明的所有公共方法
-        Method[] methods = clazz.getClass().getMethods();
+        Method[] methods = clazz.getClass().getDeclaredMethods();
         //遍历所有方法找出添加了注解的方法
         for (Method m : methods) {
             if (m.isAnnotationPresent(MethodChannelInject.class)) {

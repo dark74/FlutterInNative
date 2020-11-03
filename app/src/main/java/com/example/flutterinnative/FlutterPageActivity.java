@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.flutter.Log;
 import io.flutter.embedding.android.FlutterFragment;
 import io.flutter.embedding.android.FlutterView;
 import io.flutter.embedding.engine.FlutterEngine;
@@ -40,7 +41,7 @@ public class FlutterPageActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("dk", "onCreate");
         setContentView(R.layout.activity_flutter_page);
 
         // 创建FlutterEngine对象
@@ -92,12 +93,14 @@ public class FlutterPageActivity extends AppCompatActivity {
     // 返回上一页
     @MethodChannelInject(methodName = "goBack", paramsKey = {"type"})
     public void goBack(Map<String, Object> map) {
+        Log.d("dk", "返回上一页");
         finish();
     }
 
     // 返回上一页，携带数据
     @MethodChannelInject(methodName = "goBackWithResult", paramsKey = {"message"})
     public void goBackWithResult(Map<String, Object> map) {
+        Log.d("dk", "返回上一页，携带数据");
         Intent backIntent = new Intent();
         String msg = (String) map.get("message");
         backIntent.putExtra("message", msg);
@@ -108,6 +111,7 @@ public class FlutterPageActivity extends AppCompatActivity {
     // 跳转原生页面
     @MethodChannelInject(methodName = "jumpToNative", paramsKey = "name")
     public void jumpToNative(Map<String, Object> map) {
+        Log.d("dk", "跳转原生页面");
         Intent jumpToNativeIntent = new Intent(this, NativePageActivity.class);
         String name = (String) map.get("name");
         jumpToNativeIntent.putExtra("name", name);
