@@ -21,22 +21,6 @@ import io.flutter.plugin.common.MethodChannel;
  */
 public class MethodChannelUtil {
 
-//    public static void register(Activity activity, FlutterEngine flutterEngine) {
-//        Method[] declaredMethods = activity.getClass().getDeclaredMethods();
-//        for (int i = 0; i < declaredMethods.length; i++) {
-//            if (declaredMethods[i].isAnnotationPresent(MethodChannelInject.class)) {
-//                MethodChannelInject inject = declaredMethods[i].getAnnotation(MethodChannelInject.class);
-//                int type = inject.type();
-//                if (type == MethonType.TYPE_INVOKE) {
-//                    MethodChannel flutterChannel = new MethodChannel(flutterEngine.getDartExecutor(), ChannelType.CHANNEL_FLUTTER);
-//                    flutterChannel.invokeMethod();
-//                } else if (type == MethonType.TYPE_LISTENER) {
-//
-//                }
-//            }
-//        }
-//    }
-
     /**
      * 每次flutter调用原生时候，都遍历所有的方法，找出匹配的方法去执行
      *
